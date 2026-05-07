@@ -1,12 +1,28 @@
 package org.example.dodawanie;
 
-import static org.junit.Assert.*;
-public class DodawanieApplicationTests {
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-    @org.junit.Test
-    public void added(){
-        DodawanieApplication dodawanieApplication = new DodawanieApplication();
-        assertEquals(10,dodawanieApplication.added(5,5));
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class DodawanieApplicationTests {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void shouldReturnCorrectSum() throws Exception {
+        this.mockMvc.perform(get("/dodaj?a=2&b=3"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Suma wynosi: 5"));
     }
-
 }
